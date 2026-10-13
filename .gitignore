@@ -1,0 +1,23 @@
+# 密钥！绝对不要提交
+.env
+
+# 虚拟环境
+.venv/
+venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+
+# 数据（以后的聊天记录数据库）
+data/
+*.db
+*.sqlite3
+
+# 人设
+Person/*

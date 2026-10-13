@@ -1,0 +1,25 @@
+# 当前 venv 里实际装好的版本（Python 3.14.8）
+# 安装：.venv\\Scripts\\python.exe -m pip install -r requirements.txt
+
+# --- Agent 框架 ---
+langchain==1.4.5
+langchain-core==1.6.10
+langgraph==1.2.15
+langgraph-checkpoint==4.3.0
+
+# --- 模型接入 ---
+langchain-deepseek==1.1.1
+langchain-openai==1.7.1
+
+# --- 基础 ---
+python-dotenv==1.2.4
+pydantic==2.14.1
+
+# ===== 以下为后续阶段启用，现在不装 =====
+
+# --- 阶段二：Web 界面 ---
+# fastapi
+# uvicorn
+
+# --- 阶段二：长期记忆（持久化到 SQLite）---
+# langgraph-checkpoint-sqlite
