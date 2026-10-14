@@ -1,5 +1,9 @@
 
 from app.brain import buildAgent
+from app.voice import sendVoiceRequest
+import winsound
+winsound.PlaySound
+
 
 
 def startAgent():
@@ -14,5 +18,10 @@ def startAgent():
         },config={
             "configurable":{"thread_id":"kurisu-001"}
         })
-        print(response["messages"][-1].content)
+        answer=response["structured_response"]
+        print(">>>>>>日语"+answer.ja)
+
+        voice=sendVoiceRequest(answer.ja)
+        winsound.PlaySound(voice,winsound.SND_MEMORY)
+        print(answer.zh)
     print("聊天结束")
