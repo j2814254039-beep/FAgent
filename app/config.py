@@ -5,7 +5,8 @@ from dotenv import load_dotenv
 
 env_path = Path(__file__).parent.parent/ ".env"
 load_dotenv(dotenv_path=env_path)
-
+def getVoicePath():
+    return os.getenv("VOICE_PATH")
 def getReasoningEffor():
     return os.getenv("REASONING_EFFOR")
 def getAudioTemplatePath():
