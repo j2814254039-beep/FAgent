@@ -4,10 +4,11 @@ from langgraph.prebuilt import ToolRuntime
 from uuid import uuid4
 
 from langgraph.store.sqlite import SqliteStore
+from langgraph.store.sqlite.base import SqliteIndexConfig
 
-from app.config import getMemoryPath
+from app.config import getMemoryPath, getIfUseVector
 
-NAMESPACE = ("facts", "me")
+useVector=getIfUseVector()
 def buildStore() -> SqliteStore:
     """造一个存磁盘的仓库。跟你写过的 checkpointer 一个套路，只是换了类。"""
     conn = sqlite3.connect(
@@ -15,10 +16,14 @@ def buildStore() -> SqliteStore:
         check_same_thread=False,
         isolation_level=None,   # 必须！不加 store 一写入就报 transaction 错
     )
-    return SqliteStore(conn)
+    Index=None
+    if useVector:
+        SqliteIndexConfig
+        Index=
+    return SqliteStore(conn,Index)
 
 @tool
-def remember(fact: str, runtime: ToolRuntime) -> str:
+def remember(fact: str, runtime: ToolRuntime,namespace:tuple[str,...]) -> str:
     """当用户和你交流，你觉得很有意思，或者你觉得
     用户对这个事情有很强烈的情绪的时候，就可以考虑用这个函数记下来
     当然，你觉得你自己很感兴趣现在的聊天，不希望忘记，也可以记下来。
@@ -30,17 +35,17 @@ def remember(fact: str, runtime: ToolRuntime) -> str:
           runtime: 调用工具的时间
         """
     key = str(uuid4())
-    runtime.store.put(NAMESPACE, key, {"fact": fact})
+    runtime.store.put(namespace, key, {"fact": fact})
     return f"记忆中……{fact}"
 
 @tool
-def recall(runtime: ToolRuntime) -> str:
+def recall(runtime: ToolRuntime,namespace:tuple[str,...]) -> str:
     """
     当回答关于用户的内容，或者用户表现出你应该知道这件事，而当前上下文
     找不到相关内容时，就可以调用这个函数。一定是上下文找不到内容再启用，
     否则浪费用户时间来等待回应
     """
-    items = runtime.store.search(NAMESPACE)
+    items = runtime.store.search(namespace)
     if not items:
         return "还没有记住关于他的任何事。"
     return "\n".join(f"- {item.value['fact']}" for item in items)

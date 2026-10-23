@@ -21,3 +21,10 @@ data/
 
 # 人设
 Person/*
+
+# 本地试听与提示词对照产物（可能包含个人角色内容）
+outputs/
+
+AGENTS.md
+
+

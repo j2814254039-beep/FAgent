@@ -1,10 +1,25 @@
 from pathlib import Path
 import os
+import math
 from dotenv import load_dotenv
 
 
 env_path = Path(__file__).parent.parent/ ".env"
 load_dotenv(dotenv_path=env_path)
+
+
+def getFloatSetting(name, default, minimum, maximum):
+    value = float(os.getenv(name, str(default)))
+    if not math.isfinite(value) or not minimum <= value <= maximum:
+        raise ValueError(f"{name} 必须在 {minimum} 到 {maximum} 之间")
+    return value
+
+def getIfUseVector():
+    return os.getenv("USE_VECTOR")
+def getVoiceFloat(name, default, minimum, maximum):
+    return getFloatSetting(name, default, minimum, maximum)
+def getActionPath():
+    return os.getenv("ACTION_PATH")
 def getVoicePath():
     return os.getenv("VOICE_PATH")
 def getReasoningEffor():
